@@ -1,0 +1,226 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.nav{display:flex;gap:8px;flex-wrap:wrap;padding:1.25rem 1.25rem 0}
+.nav-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);font-size:13px;cursor:pointer;transition:all .18s;white-space:nowrap}
+.nav-btn:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.nav-btn.active{background:#EEEDFE;border-color:#AFA9EC;color:#3C3489;font-weight:500}
+.nav-btn i{font-size:15px}
+.panel{display:none;padding:1.25rem}
+.panel.active{display:block}
+.section-title{font-size:18px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.section-sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:1.25rem;line-height:1.6}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:12px}
+.card-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.card-body{font-size:13px;color:var(--color-text-secondary);line-height:1.7}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:3px 10px;border-radius:20px;margin-right:6px;margin-bottom:6px}
+.tag-purple{background:#EEEDFE;color:#3C3489}
+.tag-teal{background:#E1F5EE;color:#085041}
+.tag-amber{background:#FAEEDA;color:#633806}
+.tag-blue{background:#E6F1FB;color:#0C447C}
+.tag-coral{background:#FAECE7;color:#712B13}
+.phase-row{display:grid;grid-template-columns:80px 1fr 1fr;gap:0;border-radius:var(--border-radius-md);overflow:hidden;border:0.5px solid var(--color-border-tertiary);margin-bottom:8px}
+.phase-num{background:#EEEDFE;color:#3C3489;font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;padding:12px 8px;text-align:center;line-height:1.4}
+.phase-label{padding:12px;border-left:0.5px solid var(--color-border-tertiary);font-size:13px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center}
+.phase-desc{padding:12px;border-left:0.5px solid var(--color-border-tertiary);font-size:12px;color:var(--color-text-secondary);display:flex;align-items:center;line-height:1.5}
+.milestone-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.milestone-row:last-child{border-bottom:none}
+.ms-dot{width:32px;height:32px;border-radius:50%;background:#EEEDFE;color:#3C3489;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:2px}
+.ms-time{font-size:12px;color:#534AB7;font-weight:500;margin-bottom:2px}
+.ms-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.ms-check{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.resource-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.res-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px;border:0.5px solid var(--color-border-tertiary)}
+.res-icon{font-size:20px;margin-bottom:8px}
+.res-name{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.res-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.risk-row{display:flex;gap:12px;padding:12px 0;border-bottom:0.5px solid var(--color-border-tertiary);align-items:flex-start}
+.risk-row:last-child{border-bottom:none}
+.risk-badge{font-size:11px;padding:3px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.risk-amber{background:#FAEEDA;color:#633806}
+.risk-text{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.risk-text b{color:var(--color-text-primary);font-weight:500}
+.step-tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+.step-tab{padding:6px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;font-size:12px;cursor:pointer;color:var(--color-text-secondary);transition:all .15s}
+.step-tab.active{background:#EEEDFE;border-color:#AFA9EC;color:#3C3489;font-weight:500}
+.step-content{display:none}
+.step-content.active{display:block}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1rem 0}
+</style>
+
+<h2 class="sr-only">GEO 内容库搭建项目 — 交互式项目文档，包含背景目标、执行计划、里程碑、资源需求与风险提示五个板块</h2>
+
+<nav class="nav" role="navigation" aria-label="板块导航">
+  <button class="nav-btn active" onclick="showPanel('bg')" aria-selected="true">
+    <i class="ti ti-file-description" aria-hidden="true"></i>项目背景
+  </button>
+  <button class="nav-btn" onclick="showPanel('phases')">
+    <i class="ti ti-layout-list" aria-hidden="true"></i>执行计划
+  </button>
+  <button class="nav-btn" onclick="showPanel('milestones')">
+    <i class="ti ti-flag" aria-hidden="true"></i>关键里程碑
+  </button>
+  <button class="nav-btn" onclick="showPanel('resources')">
+    <i class="ti ti-users" aria-hidden="true"></i>资源需求
+  </button>
+  <button class="nav-btn" onclick="showPanel('risks')">
+    <i class="ti ti-alert-triangle" aria-hidden="true"></i>风险提示
+  </button>
+</nav>
+
+<div id="bg" class="panel active">
+  <p class="section-title">项目背景与目标</p>
+  <p class="section-sub">内容部开启 GEO 优化项目，通过调研确认主要交易商均已建立完善内容库，为提升 AI 搜索引擎中的品牌可见度，需系统搭建自有内容库。</p>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-world" aria-hidden="true"></i>目标市场</div>
+    <div class="card-body">
+      <span class="tag tag-purple"><i class="ti ti-star" style="font-size:11px" aria-hidden="true"></i>核心优先</span>Global 市场（English）— 率先启动
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-category" aria-hidden="true"></i>内容类型</div>
+    <div class="card-body" style="display:flex;flex-direction:column;gap:8px">
+      <div><span class="tag tag-blue">①</span><b style="color:var(--color-text-primary);font-weight:500">平台介绍类</b> — 品牌与产品功能介绍，帮助新用户了解平台</div>
+      <div><span class="tag tag-teal">②</span><b style="color:var(--color-text-primary);font-weight:500">外汇入门类</b> — 基础教育内容，引导新手理解外汇交易</div>
+      <div><span class="tag tag-amber">③</span><b style="color:var(--color-text-primary);font-weight:500">周报/市场分析类</b> — 定期市场内容，建立专业权威性</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-route" aria-hidden="true"></i>执行策略</div>
+    <div class="card-body" style="display:flex;flex-direction:column;gap:8px">
+      <div><span class="tag tag-purple">近期</span>以巴西市场内容为基础，进行 PT→EN 翻译，快速产出 Global 站内容</div>
+      <div><span class="tag tag-teal">中期</span>基于竞品调研，产出差异化原创内容，搭建完整内容库</div>
+      <div><span class="tag tag-amber">持续</span>建立周报机制，数据驱动迭代优化</div>
+    </div>
+  </div>
+</div>
+
+<div id="phases" class="panel">
+  <p class="section-title">分阶段执行计划</p>
+  <p class="section-sub">点击各阶段查看详细任务内容</p>
+  <div class="step-tabs">
+    <button class="step-tab active" onclick="showStep('s1')">第一阶段 W1–W2</button>
+    <button class="step-tab" onclick="showStep('s2')">第二阶段 W3–W7</button>
+    <button class="step-tab" onclick="showStep('s3')">第三阶段 W8–W11</button>
+    <button class="step-tab" onclick="showStep('s4')">第四阶段 W12–持续</button>
+  </div>
+
+  <div id="s1" class="step-content active">
+    <div class="card"><div class="card-title"><i class="ti ti-clipboard-list" aria-hidden="true"></i>准备期</div><div class="card-body">本阶段为整个项目的基础，重点摸清现有资产、找出共性、分析差距、跑通工作流程，确保后续翻译和内容生产有据可依。</div></div>
+    <div class="card"><div class="card-title">1.1 巴西内容盘点</div><div class="card-body">整理巴西市场现有文章数量与主题（平台介绍、外汇基础、周报分析），了解内容点击量，筛选可直接翻译的优质内容。<br><br><span class="tag tag-teal">产出</span>内容盘点表</div></div>
+    <div class="card"><div class="card-title">1.2 友商内容调研</div><div class="card-body">对标 3–5 家交易商，调研其 Global 站内容库结构、文章类型、发布频率、SEO 表现，识别内容差距与机会点。<br><br><span class="tag tag-teal">产出</span>竞品分析报告</div></div>
+    <div class="card"><div class="card-title">1.3 内容分类设计</div><div class="card-body">三大内容类型分类框架：① 平台介绍类 ② 外汇市场入门知识类 ③ 周报/经济市场分析类，确定写作规范、字数标准、SEO 要求。<br><br><span class="tag tag-teal">产出</span>内容规范文档</div></div>
+    <div class="card"><div class="card-title">1.4 翻译工作流</div><div class="card-body">制定从翻译到发布的全流程 SOP。<br><br><span class="tag tag-teal">产出</span>翻译 SOP</div></div>
+  </div>
+
+  <div id="s2" class="step-content">
+    <div class="card"><div class="card-title"><i class="ti ti-language" aria-hidden="true"></i>翻译复用：巴西→EN Global</div><div class="card-body">主要快速产量，利用巴西现有优质内容完成 PT→EN 翻译，上线首批 Global 站文章，同时完成基础 SEO 配置与数据埋点。</div></div>
+    <div class="card"><div class="card-title">2.1 平台介绍类</div><div class="card-body">以巴西市场现有文章为基础，优先选取质量高、通用性强的内容进行 PT→EN 翻译，并移除巴西特定监管表述（CVM/BCB 等），替换为 Global 通用表述。<br><br><span class="tag tag-blue">注</span>巴西站无对应内容的话题，结合友商调研结果进行原创补充</div></div>
+    <div class="card"><div class="card-title">2.2 外汇入门类</div><div class="card-body">覆盖新手必读话题：什么是外汇、点差/杠杆/保证金解释、如何开始第一笔交易、常见风险等。优先翻译巴西站已有对应文章，缺失话题进行原创。<br><br><span class="tag tag-teal">目标</span>翻译 + 原创合计覆盖外汇入门核心话题</div></div>
+    <div class="card"><div class="card-title">2.3 内容上线与基础 SEO 部署</div><div class="card-body">文章上线 Global 网站后，同步完成基础 SEO 配置：Meta Title/Description、内链、Schema Markup（Article）、Sitemap 提交，并接入 GA4 + Search Console 数据追踪。<br><br><span class="tag tag-teal">产出</span>SEO 全面配置</div></div>
+    <div class="card"><div class="card-title">2.4 翻译质量回顾 & 流程优化</div><div class="card-body">首批文章上线后进行质量评审，重点核查翻译准确性、术语统一性，收集反馈后更新术语词汇表和审核 SOP。<br><br><span class="tag tag-teal">产出</span>优化后的 SOP v2</div></div>
+  </div>
+
+  <div id="s3" class="step-content">
+    <div class="card"><div class="card-title"><i class="ti ti-pencil" aria-hidden="true"></i>原创内容库建设</div><div class="card-body">重点补充第二阶段中巴西内容未能覆盖的话题，以原创方式填补内容空白，同步启动周报栏目。</div></div>
+    <div class="card"><div class="card-title">3.1 周报/市场分析栏目启动</div><div class="card-body">建立固定周报模板（宏观数据回顾 + 主要资产分析 + 下周关注点），确定每周发布节奏，安排内容写作（借助 AI 工具低成本产出）与合规审核流程。<br><br><span class="tag tag-teal">产出</span>周报模板</div></div>
+    <div class="card"><div class="card-title">3.2 内容空白补充：原创文章</div><div class="card-body">针对第二阶段因巴西内容缺失而未能覆盖的话题，结合友商调研结果进行原创补充。选题以内容盘点中标记的"空白项"和竞品高流量话题为参考，重点覆盖新手关注的核心问题。<br><br><span class="tag tag-teal">产出</span>原创文章若干篇（数量以内容空白盘点为准）</div></div>
+    <div class="card"><div class="card-title">3.3 内容矩阵完善 & 内链优化</div><div class="card-body">梳理已发布内容，建立 Topic Cluster 结构（核心页 + 支撑文章），强化内链网络，提升 AI 搜索引擎（Perplexity、ChatGPT Search 等）对内容的可引用性。<br><br><span class="tag tag-purple">关键</span>Topic Cluster 是 GEO 效果的核心，AI 搜索引擎更倾向引用结构清晰的主题集群<br><br><span class="tag tag-teal">产出</span>内容地图</div></div>
+  </div>
+
+  <div id="s4" class="step-content">
+    <div class="card"><div class="card-title"><i class="ti ti-refresh" aria-hidden="true"></i>迭代运营：数据驱动持续优化</div><div class="card-body">进入常态化运营，重点建立数据闭环、基于效果优化内容，固化内容生产机制。</div></div>
+    <div class="card"><div class="card-title">4.1 GEO 效果首次评估</div><div class="card-body">统计各文章在 AI 搜索引擎中的引用频次，结合 Search Console 展示量/点击率、自然流量增长数据，分析新手用户注册转化率，与基线对比输出评估报告。<br><br><span class="tag tag-amber">重点追踪</span>Perplexity / ChatGPT Search 引用频次<br><br><span class="tag tag-teal">产出</span>GEO 效果报告</div></div>
+    <div class="card"><div class="card-title">4.2 内容迭代与持续补充</div><div class="card-body">基于数据结果，对流量低/引用少的文章进行优化更新；对表现好的话题延伸新文章；保持周报稳定输出（目标月均 4 篇），持续扩充内容库广度。<br><br><span class="tag tag-teal">产出</span>内容团队持续投入</div></div>
+    <div class="card"><div class="card-title">4.3 内容运营机制固化</div><div class="card-body">建立内容日历（提前规划每篇文章发布时间、主题与负责人的排期表）、季度竞品复盘机制，形成可持续运营的内容生产标准化流水线，输出完整内容运营手册。<br><br><span class="tag tag-blue">注</span>手册应包含内容日历模板，确保团队轮换后知识不流失<br><br><span class="tag tag-teal">产出</span>内容运营手册</div></div>
+  </div>
+</div>
+
+<div id="milestones" class="panel">
+  <p class="section-title">关键里程碑</p>
+  <p class="section-sub">项目全程共 5 个关键节点，验收标准如下</p>
+  <div class="card" style="padding:0.75rem 1.25rem">
+    <div class="milestone-row">
+      <div class="ms-dot">M1</div>
+      <div><div class="ms-time">W3 末</div><div class="ms-title">准备完成，正式启动</div><div class="ms-check">内容盘点完成，翻译 SOP 就绪，正式启动翻译工作</div></div>
+    </div>
+    <div class="milestone-row">
+      <div class="ms-dot">M2</div>
+      <div><div class="ms-time">W7 末</div><div class="ms-title">首批 EN 文章上线</div><div class="ms-check">首批 EN 文章上线 Global 站（数量以盘点结果为准），Search Console 数据可追踪</div></div>
+    </div>
+    <div class="milestone-row">
+      <div class="ms-dot">M3</div>
+      <div><div class="ms-time">W9 末</div><div class="ms-title">周报栏目启动</div><div class="ms-check">周报栏目正式启动，每周稳定产出 1 篇市场分析文章</div></div>
+    </div>
+    <div class="milestone-row">
+      <div class="ms-dot">M4</div>
+      <div><div class="ms-time">W11 末</div><div class="ms-title">内容库初具规模</div><div class="ms-check">内容库累计达到 50+ 篇，Topic Cluster 内链结构完善</div></div>
+    </div>
+    <div class="milestone-row" style="border-bottom:none">
+      <div class="ms-dot">M5</div>
+      <div><div class="ms-time">W16 末</div><div class="ms-title">首次 GEO 效果评估</div><div class="ms-check">GEO 效果首次评估报告产出，输出数据对比分析</div></div>
+    </div>
+  </div>
+</div>
+
+<div id="resources" class="panel">
+  <p class="section-title">关键资源依赖</p>
+  <p class="section-sub">所有内容均由内容团队内部完成，合规审核由合规团队负责，SEO 配置由技术人员支持</p>
+  <div class="resource-grid">
+    <div class="res-card">
+      <div class="res-icon"><i class="ti ti-users" style="color:#534AB7" aria-hidden="true"></i></div>
+      <div class="res-name">内容团队（核心）</div>
+      <div class="res-desc">负责内容盘点、竞品调研、翻译（PT→EN）、原创文章写作与内部审核，借助 AI 工具辅助提效</div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon"><i class="ti ti-robot" style="color:#0C447C" aria-hidden="true"></i></div>
+      <div class="res-name">内容团队（周报）</div>
+      <div class="res-desc">周报/市场分析类内容由内容团队内部撰写，借助 AI 工具低成本产出，无需专职分析师</div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon"><i class="ti ti-shield-check" style="color:#085041" aria-hidden="true"></i></div>
+      <div class="res-name">合规团队</div>
+      <div class="res-desc">负责所有内容的合规审核，确保符合 Global 市场监管要求</div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon"><i class="ti ti-code" style="color:#633806" aria-hidden="true"></i></div>
+      <div class="res-name">SEO 技术支持</div>
+      <div class="res-desc">基础 SEO 配置、Sitemap 提交、数据追踪搭建由技术人员提供支持</div>
+    </div>
+  </div>
+</div>
+
+<div id="risks" class="panel">
+  <p class="section-title">主要风险与应对</p>
+  <p class="section-sub">共识别 3 项主要风险，均已制定对应应对策略</p>
+  <div class="card" style="padding:0.75rem 1.25rem">
+    <div class="risk-row">
+      <span class="risk-badge risk-amber">风险 1</span>
+      <div class="risk-text"><b>翻译效率</b> — 翻译工作由内容团队内部承担，建议 W1 确认人员分工并完善 AI 辅助翻译工具流程，避免产能瓶颈</div>
+    </div>
+    <div class="risk-row">
+      <span class="risk-badge risk-amber">风险 2</span>
+      <div class="risk-text"><b>内容质量</b> — 翻译金融术语准确性不足，需在 W2 前完成术语词汇表并纳入内部审核要求</div>
+    </div>
+    <div class="risk-row" style="border-bottom:none">
+      <span class="risk-badge risk-amber">风险 3</span>
+      <div class="risk-text"><b>周报质量</b> — 周报由内容团队借助 AI 产出，初期需建立标准模板与审核机制，确保内容专业性与准确性</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+function showStep(id){
+  document.querySelectorAll('.step-content').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>

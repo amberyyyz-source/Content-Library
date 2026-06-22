@@ -49,8 +49,6 @@ body{font-family:var(--font-sans)}
 .divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1rem 0}
 </style>
 
-<h2 class="sr-only">GEO 内容库搭建项目 — 交互式项目文档，包含背景目标、执行计划、里程碑、资源需求与风险提示五个板块</h2>
-
 <nav class="nav" role="navigation" aria-label="板块导航">
   <button class="nav-btn active" onclick="showPanel('bg')" aria-selected="true">
     <i class="ti ti-file-description" aria-hidden="true"></i>项目背景
@@ -59,10 +57,10 @@ body{font-family:var(--font-sans)}
     <i class="ti ti-layout-list" aria-hidden="true"></i>执行计划
   </button>
   <button class="nav-btn" onclick="showPanel('milestones')">
-    <i class="ti ti-flag" aria-hidden="true"></i>关键里程碑
+    <i class="ti ti-flag" aria-hidden="true"></i>关键节点
   </button>
   <button class="nav-btn" onclick="showPanel('resources')">
-    <i class="ti ti-users" aria-hidden="true"></i>资源需求
+    <i class="ti ti-users" aria-hidden="true"></i>板块分配
   </button>
   <button class="nav-btn" onclick="showPanel('risks')">
     <i class="ti ti-alert-triangle" aria-hidden="true"></i>风险提示
@@ -126,7 +124,7 @@ body{font-family:var(--font-sans)}
     <div class="card"><div class="card-title"><i class="ti ti-pencil" aria-hidden="true"></i>原创内容库建设</div><div class="card-body">重点补充第二阶段中巴西内容未能覆盖的话题，以原创方式填补内容空白，同步启动周报栏目。</div></div>
     <div class="card"><div class="card-title">3.1 周报/市场分析栏目启动</div><div class="card-body">建立固定周报模板（宏观数据回顾 + 主要资产分析 + 下周关注点），确定每周发布节奏，安排内容写作（借助 AI 工具低成本产出）与合规审核流程。<br><br><span class="tag tag-teal">产出</span>周报模板</div></div>
     <div class="card"><div class="card-title">3.2 内容空白补充：原创文章</div><div class="card-body">针对第二阶段因巴西内容缺失而未能覆盖的话题，结合友商调研结果进行原创补充。选题以内容盘点中标记的"空白项"和竞品高流量话题为参考，重点覆盖新手关注的核心问题。<br><br><span class="tag tag-teal">产出</span>原创文章若干篇（数量以内容空白盘点为准）</div></div>
-    <div class="card"><div class="card-title">3.3 内容矩阵完善 & 内链优化</div><div class="card-body">梳理已发布内容，建立 Topic Cluster 结构（核心页 + 支撑文章），强化内链网络，提升 AI 搜索引擎（Perplexity、ChatGPT Search 等）对内容的可引用性。<br><br><span class="tag tag-purple">关键</span>Topic Cluster 是 GEO 效果的核心，AI 搜索引擎更倾向引用结构清晰的主题集群<br><br><span class="tag tag-teal">产出</span>内容地图</div></div>
+    <div class="card"><div class="card-title">3.3 内容矩阵完善 & 内链优化</div><div class="card-body">梳理已发布内容，建立 Topic Cluster 结构（核心页 + 支撑文章），强化内链网络，提升 AI 搜索引擎（Perplexity、ChatGPT、Gemini Search 等）对内容的可引用性。<br><br><span class="tag tag-purple">关键</span>Topic Cluster 是 GEO 效果的核心，AI 搜索引擎更倾向引用结构清晰的主题集群<br><br><span class="tag tag-teal">产出</span>内容地图</div></div>
   </div>
 
   <div id="s4" class="step-content">
@@ -165,7 +163,7 @@ body{font-family:var(--font-sans)}
 </div>
 
 <div id="resources" class="panel">
-  <p class="section-title">关键资源依赖</p>
+  <p class="section-title">主要安排</p>
   <p class="section-sub">所有内容均由内容团队内部完成，合规审核由合规团队负责，SEO 配置由技术人员支持</p>
   <div class="resource-grid">
     <div class="res-card">
